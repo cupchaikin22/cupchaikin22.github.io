@@ -1,0 +1,63 @@
+/* Глобальные стили */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #f5f5f5;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Заголовок */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Кнопка темы */
+.theme-toggle {
+    padding: 10px 20px;
+    background: #007bff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.theme-toggle:hover {
+    background: #0056b3;
+}
+
+/* Кнопка с анимацией */
+.btn {
+    padding: 12px 24px;
+    font-size: 18px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 10px 20px rgba(255, 75, 43, 0.4);
+}
+
+/* Темная тема */
+.dark-mode {
+    background: #222;
+    color: #fff;
+}
+
+.dark-mode .btn {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+}
