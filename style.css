@@ -1,0 +1,111 @@
+/* Минимализм */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  padding: 20px 0;
+  text-align: center;
+}
+
+header h1 {
+  font-weight: 400;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+header nav a:hover {
+  background-color: #0055ff33;
+}
+
+main {
+  padding: 60px 0;
+}
+
+.intro, .features {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+h2 {
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #cfcfcf;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+.primary-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #0055ff;
+  color: #ffffff;
+  font-weight: 500;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.primary-button:hover {
+  background-color: #0040cc;
+  transform: scale(1.05);
+}
+
+footer {
+  text-align: center;
+  padding: 20px 0;
+  color: #aaaaaa;
+  margin-top: 40px;
+}
+
+/* Динамический свет за курсором */
+#cursor-light {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(58, 2, 5) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: 0.05s;
+  z-index: 9999;
+}
