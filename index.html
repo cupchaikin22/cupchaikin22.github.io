@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ghost Chat · Приватность без компромиссов</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #08080a;
+      --surface: #111114;
+      --text: #f5f5fa;
+      --muted: #8288a0;
+      --accent: #6d5dfc;
+      --accent-hover: #8b7dff;
+      --border: #1c1e27;
+    }
+
+    /* Фоны */
+    [data-bg="violet"] { --bg: linear-gradient(135deg, #190033, #3c0066, #6d00cc); }
+    [data-bg="blue"]   { --bg: linear-gradient(135deg, #0d1b2a, #162c5c, #2c4e9c); }
+    [data-bg="green"]  { --bg: linear-gradient(135deg, #0d2b1a, #1a4d2e, #2e7a4a); }
+    [data-bg="black"]  { --bg: #08080a; }
+    [data-bg="white"]  { 
+      --bg: #fafbff; 
+      --surface: #ffffff; 
+      --text: #0f172a; 
+      --muted: #64748b; 
+      --border: #e2e8f0; 
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+      transition: background 0.9s ease;
+    }
+
+    .container { max-width:1480px; margin:0 auto; padding:0 3rem; }
+
+    header { padding:12rem 0 8rem; text-align:center; }
+    .logo-wrapper {
+      position:relative;
+      display:inline-block;
+      margin-bottom:2.5rem;
+    }
+    .logo-img {
+      width: 320px;
+      height: 320px;
+      object-fit: contain;
+      border-radius: 50%;
+      border: 3px solid rgba(110,110,255,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      opacity: 0;
+      transform: scale(0.8) translateY(30px);
+      transition: all 1.5s ease-out;
+    }
+    .logo-img.visible {
+      opacity:1;
+      transform: scale(1) translateY(0);
+    }
+
+    .logo-text {
+      font-size:8rem;
+      font-weight:900;
+      letter-spacing:-0.07em;
+      background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      opacity:0;
+      transform:translateY(40px);
+      transition:all 1.2s ease-out 0.5s;
+    }
+    .logo-text.visible { opacity:1; transform:translateY(0); }
+
+    .subtitle { font-size:1.8rem; color:var(--muted); max-width:900px; margin:0 auto 4rem; font-weight:300; opacity:0; transition:all 1.3s ease-out 0.7s; }
+    .subtitle.visible { opacity:1; }
+
+    .team-section {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:2.5rem;
+      padding:6rem 4rem;
+      margin:8rem 0;
+      text-align:center;
+      opacity:0;
+      transform:translateY(50px);
+      transition:all 1s ease-out;
+    }
+    .team-section.visible { opacity:1; transform:translateY(0); }
+
+    .team-section h2 { font-size:3.5rem; margin-bottom:2.5rem; }
+    .team-section p { font-size:1.35rem; color:var(--muted); line-height:1.9; max-width:1100px; margin:0 auto 2.5rem; }
+
+    .features {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+      gap:4rem;
+      margin:10rem 0;
+    }
+
+    .feature {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:2rem;
+      padding:3.5rem;
+      transition:all 0.5s ease;
+      opacity:0;
+      transform:translateY(40px);
+    }
+
+    .feature.visible { opacity:1; transform:translateY(0); }
+
+    .feature:hover {
+      transform:translateY(-18px) scale(1.02);
+      border-color:var(--accent);
+      box-shadow:0 45px 90px -30px rgba(110,110,255,0.35);
+    }
+
+    .feature-icon { font-size:4.5rem; margin-bottom:2rem; display:inline-block; }
+    .feature-title { font-size:2.2rem; font-weight:700; margin-bottom:1.5rem; }
+    .feature-text { color:var(--muted); font-size:1.25rem; line-height:1.8; }
+
+    .cta { text-align:center; margin:14rem 0 10rem; }
+    .btn-primary {
+      padding:1.5rem 5rem;
+      font-size:1.5rem;
+      font-weight:600;
+      color:white;
+      background:var(--accent);
+      border-radius:999px;
+      text-decoration:none;
+      transition:all 0.45s ease;
+      box-shadow:0 20px 60px -20px rgba(110,110,255,0.7);
+    }
+
+    .btn-primary:hover {
+      transform:translateY(-6px) scale(1.05);
+      box-shadow:0 40px 120px -40px rgba(110,110,255,0.9);
+      background:var(--accent-hover);
+    }
+
+    .color-picker {
+      display:flex;
+      justify-content:center;
+      gap:1.8rem;
+      margin:8rem 0;
+      flex-wrap:wrap;
+    }
+
+    .color-btn {
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      border:4px solid transparent;
+      cursor:pointer;
+      transition:all 0.4s;
+      box-shadow:0 8px 25px rgba(0,0,0,0.6);
+    }
+
+    .color-btn.active {
+      border-color:var(--accent);
+      transform:scale(1.3);
+      box-shadow:0 20px 50px rgba(110,110,255,0.6);
+    }
+
+    .color-black  { background:#08080a; }
+    .color-violet { background:linear-gradient(135deg, #4b0082, #9d4edd); }
+    .color-blue   { background:linear-gradient(135deg, #1e3a8a, #60a5fa); }
+    .color-green  { background:linear-gradient(135deg, #065f46, #10b981); }
+    .color-white  { background:#f9fafb; border:4px solid #cbd5e1; }
+
+    footer {
+      text-align:center;
+      padding:12rem 0 8rem;
+      color:var(--muted);
+      font-size:1.15rem;
+      border-top:1px solid var(--border);
+    }
+
+    @media (max-width:1024px) {
+      .logo-img { width:280px; height:280px; }
+      .logo-text { font-size:6rem; }
+      header { padding:9rem 0 6rem; }
+      .features { grid-template-columns:1fr; }
+      .team-section { padding:5rem 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo-wrapper">
+    
+        <img src="" alt="Ghost Logo" class="logo-img">
+      </div>
+      <div class="logo-text">Ghost</div>
+      <p class="subtitle">Анонимный мессенджер, который создаёт команда из 5 человек, чтобы вернуть людям настоящую приватность</p>
+    </header>
+
+    <section class="team-section">
+      <h2>Ghost Team</h2>
+      <p>Нас всего пятеро. Пятеро людей, которым реально надоело смотреть, как корпорации, правительства и рекламщики читают каждое наше сообщение.</p>
+      <p>Мы — Ghost Team. Не корпорация. Не стартап с миллионами. Просто ребята, которые верят: у каждого должно быть право говорить то, что он думает, без страха, что это потом где-то всплывёт.</p>
+      <p>Мы делаем Ghost Chat — мессенджер, где нет номера телефона, нет email, нет привязки к соцсетям. Только имя, которое ты придумал сам. Всё остальное — криптография, end-to-end шифрование и ноль компромиссов.</p>
+      <p>Проект в активной разработке. Мы не торопимся. Делаем так, чтобы потом не стыдно было смотреть вам в глаза.</p>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3 class="feature-title">End-to-End шифрование</h3>
+        <p class="feature-text">Сообщения шифруются на твоём устройстве и расшифровываются только у получателя. Сервер видит только зашифрованный мусор.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">👻</div>
+        <h3 class="feature-title">Полная анонимность</h3>
+        <p class="feature-text">Регистрация — одно имя. Никаких паспортов, номеров, лиц, геолокаций и следов.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">Мгновенно и просто</h3>
+        <p class="feature-text">Realtime-сообщения без задержек. Минимум кнопок. Всё работает так, как должно.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🛡️</div>
+        <h3 class="feature-title">Безопасность на первом месте</h3>
+        <p class="feature-text">Мы не собираем данные. Не храним логи. Не продаём рекламу. Всё, что нужно — это приватность.</p>
+      </div>
+    </section>
+
+    <div class="cta">
+      <button class="btn-primary" id="infoBtn">Узнать подробнее</button>
+    </div>
+
+    <!-- Выбор фона -->
+    <div class="color-picker">
+      <button class="color-btn color-black active" data-bg="black" title="Чёрный"></button>
+      <button class="color-btn color-violet" data-bg="violet" title="Фиолетовый"></button>
+      <button class="color-btn color-blue" data-bg="blue" title="Тёмно-синий"></button>
+      <button class="color-btn color-green" data-bg="green" title="Тёмно-зелёный"></button>
+      <button class="color-btn color-white" data-bg="white" title="Белый"></button>
+    </div>
+
+    <footer>
+      © 2026 Ghost Team · 5 человек, которые верят, что приватность — это право, а не привилегия
+    </footer>
+  </div>
+
+  <!-- Модальное окно -->
+  <div class="modal" id="infoModal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeBtn">×</span>
+
+      <h2>Ghost Chat</h2>
+
+      <p>Мы — Ghost Team. Пятеро людей, которые решили, что хватит. Хватит отдавать свою приватность корпорациям, правительствам и рекламным сетям.</p>
+
+      <h3 style="margin:3rem 0 1.5rem;">Что мы делаем</h3>
+      <ul style="margin:0 0 3rem 2.5rem; color:var(--muted); font-size:1.3rem; line-height:2;">
+        <li>Полное end-to-end шифрование (libsodium + X25519 + XChaCha20-Poly1305)</li>
+        <li>Регистрация только по имени — без номера, почты, паспорта</li>
+        <li>Realtime-сообщения без задержек</li>
+        <li>Минималистичный, тёмный, удобный интерфейс</li>
+        <li>Никаких трекеров, рекламы, аналитики, логов</li>
+        <li>Открытый исходный код (скоро на GitHub)</li>
+        <li>Поддержка Android, iOS и Windows</li>
+      </ul>
+
+      <div style="background:rgba(110,110,255,0.15); border:1px solid rgba(110,110,255,0.3); border-radius:1.2rem; padding:2rem; text-align:center; margin:3rem 0; font-size:1.4rem; font-weight:500;">
+        Проект в активной разработке.<br>Релиз MVP — в ближайшие месяцы.
+      </div>
+
+      <p style="font-size:1.5rem; font-weight:600; margin-top:4rem; text-align:center;">
+        Присоединяйтесь к тем, кто устал быть товаром.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Модальное окно
+    const modal = document.getElementById('infoModal');
+    const openBtn = document.getElementById('infoBtn');
+    const closeBtn = document.getElementById('closeBtn');
+
+    openBtn.onclick = () => modal.classList.add('active');
+    closeBtn.onclick = () => modal.classList.remove('active');
+    modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+
+    // Смена фона
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.documentElement.setAttribute('data-bg', btn.dataset.bg);
+        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      };
+    });
+
+    // Плавное появление
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.logo-svg, .logo-text, .subtitle, .team-section, .feature').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
